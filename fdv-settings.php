@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Fdv Settings
-Plugin URI: https://fmdelvalle.es
+Plugin URI: https://github.com/fmdelvalle/fdv-settings
 Description: Enables other plugins to easily provide settings pages. It allows several plugins to use it
 at the same time without conflicts.
 Version: 1.00
 Author: Fernando del Valle <fmdelvalle@gmail.com>
-Author URI: https://fmdelvalle.es
+Author URI: http://fmdelvalle.es
 Text Domain: fdv-settings
 */
 
@@ -216,6 +216,8 @@ class FdvSettings {
             static::onTextInputRender( $domain, $groupname, $fieldname, $fieldvalue ? intval($fieldvalue) : null );
         } else if( $type == 'text' ) {
             static::onTextInputRender( $domain, $groupname, $fieldname, $fieldvalue ? $fieldvalue : null );
+        } else if( $type == 'textarea' ) {
+            static::onTextAreaRender( $domain, $groupname, $fieldname, $fieldvalue ? $fieldvalue : null );
         } else {
             throw new Exception("Unsupported type: {$type}");
         }
@@ -252,6 +254,16 @@ class FdvSettings {
                 name="<?php echo esc_attr( $fieldname ); ?>"
                 value="<?php echo esc_attr( $default_value ); ?>"
             />
+    <?php
+    }
+
+    protected static function onTextAreaRender( $domain, $groupname, $fieldname, $default_value ) {
+        // output the field
+        ?>
+        <textarea id="<?php echo esc_attr( $fieldname ); ?>"
+               data-custom="<?php echo esc_attr( 'wporg_custom_data' ); ?>"
+               name="<?php echo esc_attr( $fieldname ); ?>"
+               ><?php echo esc_attr( $default_value ); ?></textarea>
     <?php
     }
 }
